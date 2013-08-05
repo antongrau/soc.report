@@ -1,0 +1,23 @@
+Package: soc.report
+Title: Tools and functions for reports in social science
+Description: soc.report helps you to know your data better and quickly plot
+    simple descriptive statistics in the layout and design that is appropriate
+    for reports within the social sciences.
+URL: https://github.com/Rsoc/soc.report
+Version: 0.1
+Maintainer: Anton Grau Larsen <alar@soc.ku.dk>
+Author: Anton Grau Larsen <alar@soc.ku.dk>
+Depends:
+    R (>= 3.0.0),
+    ggplot2,
+    ellipse,
+    scales,
+    grid,
+    gridExtra
+License: GPL-3
+Collate:
+    'clean.R'
+    'report.R'
+    'simple_table.R'
+    'grob_tab.R'
+    'tal_table.R'
