@@ -1,7 +1,7 @@
 ###############################
 ### Cleaning functions
 
-#'  Recode very small levels into Missing
+#'  Recode very small levels into Missing values
 #'  
 #'  Kill.the.small recodes all levels with proportions below a certain threshold into "Missing".
 #'  This is useful for a very crude first look at a lot of variables.
