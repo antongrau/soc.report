@@ -28,6 +28,7 @@ variables
 #' Recode all NA values into missing in a data.frame of factors
 #' 
 #' @param x is a data.frame of factors
+#' @param convert.to.factor if TRUE all non-factor columns in x are converted to factors
 #' @param missing.value is the new value given to the NA values
 #' @export
 #' @examples
@@ -35,12 +36,24 @@ variables
 #' x <- as.data.frame(matrix(rep(c("a", "b", "c", NA), 3), ncol=3))
 #' x
 #' na.to.missing(x)
+na.to.missing <- function(x,  convert.to.factor=FALSE, missing.value="MISSING"){
 
-na.to.missing <- function(x, missing.value="MISSING"){
-
+  
+# Handling if values are not factors  
+if(identical(convert.to.factor, FALSE)){
  if (all(unlist(lapply(x, is.factor)))==FALSE) stop("Not all columns in x are factors")
-  
-  
+}
+
+if(identical(convert.to.factor, TRUE)){
+  col.factors <- unlist(lapply(x, is.factor))
+  if (all(col.factors)==FALSE){
+  cat("Some columns where forced into factors")
+  x[, col.factors] <- apply(x[,col.factors], 2, as.factor)
+  }
+}
+
+# finding columns with NA values
+
 missing.cols  <- which(colSums(is.na(x)) > 0)
 missing.x     <- x[,missing.cols] 
 

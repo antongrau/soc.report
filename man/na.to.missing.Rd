@@ -2,10 +2,14 @@
 \alias{na.to.missing}
 \title{NA to Missing}
 \usage{
-  na.to.missing(x, missing.value = "MISSING")
+  na.to.missing(x, convert.to.factor = FALSE,
+    missing.value = "MISSING")
 }
 \arguments{
   \item{x}{is a data.frame of factors}
+
+  \item{convert.to.factor}{if TRUE all non-factor columns
+  in x are converted to factors}
 
   \item{missing.value}{is the new value given to the NA
   values}
