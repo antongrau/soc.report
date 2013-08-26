@@ -30,6 +30,8 @@ tab.freq(mba)
 grob.tab(tab.cross(mba, hd))
 
 tal.cross(mba, hd)
+
+
 tal.freq(mba)
 
 report.cross(fact)
