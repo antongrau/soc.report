@@ -2,9 +2,8 @@
 \alias{tal.freq}
 \title{Frequency table in the &tal style}
 \usage{
-  tal.freq(x, digits = 2,
-    color = rgb(144, 26, 30, maxColorValue = 255),
-    title = "", min.width = 120, footnote = "")
+tal.freq(x, digits = 2, color = rgb(144, 26, 30, maxColorValue = 255),
+  title = "", min.width = 120, footnote = "")
 }
 \arguments{
   \item{x}{is a factor or character vector}
@@ -20,6 +19,6 @@
   \item{footnote}{is the text displayed below the table}
 }
 \description{
-  Frequency table in the &tal style
+Frequency table in the &tal style
 }
 

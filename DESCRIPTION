@@ -15,9 +15,3 @@ Depends:
     grid,
     gridExtra
 License: GPL-3
-Collate:
-    'clean.R'
-    'report.R'
-    'simple_table.R'
-    'grob_tab.R'
-    'tal_table.R'

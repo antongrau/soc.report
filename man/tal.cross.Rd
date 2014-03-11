@@ -2,10 +2,9 @@
 \alias{tal.cross}
 \title{Crosstable in the &tal style}
 \usage{
-  tal.cross(x, y, prop.margin = 1, digits = 2,
-    margin = 1:2, stat = TRUE,
-    color = rgb(144, 26, 30, maxColorValue = 255),
-    title = "", min.width = 120)
+tal.cross(x, y, prop.margin = 1, digits = 2, margin = 1:2, stat = TRUE,
+  color = rgb(144, 26, 30, maxColorValue = 255), title = "",
+  min.width = 120)
 }
 \arguments{
   \item{x}{a factor}
@@ -33,6 +32,6 @@
   \item{title}{sets the title}
 }
 \description{
-  Crosstable in the &tal style
+Crosstable in the &tal style
 }
 

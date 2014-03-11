@@ -2,8 +2,8 @@
 \alias{tab.cross}
 \title{Cross-table}
 \usage{
-  tab.cross(x, y, frequencies = TRUE, prop.margin = 1,
-    digits = 2, sum.margin = 1:2, sum.label = "Total")
+tab.cross(x, y, frequencies = TRUE, prop.margin = 1, digits = 2,
+  sum.margin = 1:2, sum.label = "Total")
 }
 \arguments{
   \item{x}{a factor}
@@ -24,11 +24,11 @@
   \item{sum.label}{is the label of the margins}
 }
 \value{
-  a table with 2 dimensions
+a table with 2 dimensions
 }
 \description{
-  \code{tab.cross} performs a simple two-way cross
-  tabulation of two factor vectors. Easy printing and
-  plotting is helped by simple formatting.
+\code{tab.cross} performs a simple two-way cross tabulation
+of two factor vectors. Easy printing and plotting is helped
+by simple formatting.
 }
 

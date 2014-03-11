@@ -15,7 +15,7 @@
 
 # The values now set as -- could be the sum proportions this should be simple
 
-tab.cross <-  function(x, y, frequencies=TRUE, prop.margin=1, digits=2, sum.margin=1:2, sum.label="Total"){
+tab.cross <-  function(x, y, frequencies = TRUE, prop.margin = 1, digits = 2, sum.margin = 1:2, sum.label = "Total"){
   
   freq  <- table(x,y)
   prop  <- round(prop.table(freq, prop.margin), digits)

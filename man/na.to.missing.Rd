@@ -2,8 +2,7 @@
 \alias{na.to.missing}
 \title{NA to Missing}
 \usage{
-  na.to.missing(x, convert.to.factor = FALSE,
-    missing.value = "MISSING")
+na.to.missing(x, convert.to.factor = FALSE, missing.value = "MISSING")
 }
 \arguments{
   \item{x}{is a data.frame of factors}
@@ -15,8 +14,8 @@
   values}
 }
 \description{
-  Recode all NA values into missing in a data.frame of
-  factors
+Recode all NA values into missing in a data.frame of
+factors
 }
 \examples{
 x <- as.data.frame(matrix(rep(c("a", "b", "c", NA), 3), ncol=3))
