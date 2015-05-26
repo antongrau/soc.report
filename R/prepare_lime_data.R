@@ -25,15 +25,15 @@ prepare.lime.data <- function(x){
                     headers[i] <- str_trim(headers[[i]])
                     answers[i] <- str_trim(answers[[i]])
                     
-                    attributes(x[,i])$header <- headers[i]
+                    attributes(x[,i])$header <- unlist(headers[i])
                     
                     if (is.factor(x[,i]) && c("Not selected") %in% levels(x[,i])){
                               x[,i] <- revalue(x[,i], c("Yes" = answers[[i]]))
-                              attributes(x[,i])$answer <- answers[i]
+                              attributes(x[,i])$answer <- unlist(answers[i])
                     }
                     
                     if (is.factor(x[,i]) && !headers[i] %in% answers[i] && !c("Not selected") %in% levels(x[,i])){
-                              attributes(x[,i])$sub.header <- answers[i]
+                              attributes(x[,i])$sub.header <- unlist(answers[i])
                     }
                     
           }        
