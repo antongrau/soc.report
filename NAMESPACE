@@ -3,6 +3,7 @@
 export(grob.tab)
 export(kill.the.small)
 export(na.to.missing)
+export(prepare.lime.data)
 export(report.cross)
 export(report.freq)
 export(standard.width.table)
