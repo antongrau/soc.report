@@ -15,5 +15,6 @@ Depends:
     grid,
     gridExtra,
     plyr,
-    xlsx
+    xlsx,
+    stringr
 License: GPL-3
