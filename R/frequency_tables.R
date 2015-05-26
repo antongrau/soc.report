@@ -24,20 +24,20 @@ freq.tab <- function(x, weights=NULL, transpose=FALSE, cells=c("count","pct")){
   out <- cbind(count,pct)
   dimnames(out)[[2]] <- c("Antal svar", "Andel (%)")
   
+  out <- data.frame(out, check.names=FALSE)
+  
   if (!"count" %in% cells){
-    out <- pct
-    dimnames(out)[[2]] <- "Andel (%)"
+    out <- data.frame(pct)
+    names(out) <- "Andel (%)"
   }
   
   if (!"pct" %in% cells){
-    out <- count
-    dimnames(out)[[2]] <- "Antal svar"
+    Andel <- data.frame(count)
+    names(out) <- "Antal svar"
   }
   
   if (transpose)
-    out <- t(out)
-  
-  out <- data.frame(out, check.names=FALSE)
+    out <- data.frame(t(out), check.names=FALSE)
   
   attributes(out)$header <- attributes(x)$header
   attributes(out)$sub.header <- attributes(x)$sub.header

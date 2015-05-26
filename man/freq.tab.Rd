@@ -4,12 +4,14 @@
 \alias{freq.tab}
 \title{freq.tab}
 \usage{
-freq.tab(x, weights = NULL, transpose = FALSE)
+freq.tab(x, weights = NULL, transpose = FALSE, cells = c("count", "pct"))
 }
 \arguments{
 \item{x}{a vector}
 
 \item{transpose}{transposes the table if set as TRUE}
+
+\item{cells}{a vector indicating which cells to export.Default is c("count", "pct")}
 
 \item{weighs}{a numeric vector of weights}
 }
