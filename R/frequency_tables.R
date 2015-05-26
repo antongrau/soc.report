@@ -32,7 +32,7 @@ freq.tab <- function(x, weights=NULL, transpose=FALSE, cells=c("count","pct")){
   }
   
   if (!"pct" %in% cells){
-    Andel <- data.frame(count)
+    out <- data.frame(count)
     names(out) <- "Antal svar"
   }
   
