@@ -24,12 +24,12 @@ freq.tab <- function(x, weights=NULL, transpose=FALSE, cells=c("count","pct")){
   out <- cbind(count,pct)
   dimnames(out)[[2]] <- c("Antal svar", "Andel (%)")
   
-  if ("count" !%in% cells){
+  if (!"count" %in% cells){
     out <- pct
     dimnames(out)[[2]] <- "Andel (%)"
   }
   
-  if ("pct" !%in% cells){
+  if (!"pct" %in% cells){
     out <- count
     dimnames(out)[[2]] <- "Antal svar"
   }
