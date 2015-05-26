@@ -1,17 +1,17 @@
 #' prepare.lime.data
 #' 
-#' @param x a data.frame object
+#' 
+#' @param x a data.frame
+#' @return a data.frame
 #' @export
 
 prepare.lime.data <- function(x){
 
-          
           if (!is.data.frame(x))
                     stop("x is not a data.frame")
           
           var.lab <- attributes(x)$variable.labels
-          headers <- vector("list", length=length(x))
-          answers <- headers
+          headers <- answers <- vector("list", length=length(x))
           
           for (i in 1:length(x)){
                     headers[i] <- gsub("(.*?)\\[.*?\\]", "\\1",var.lab[i])
