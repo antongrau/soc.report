@@ -13,6 +13,6 @@ prepare.lime.data(x)
 a data.frame
 }
 \description{
-prepare.lime.data
+Adds a number of attributes (header, sub.header, answer) to each variable in a data.frame.
 }
 

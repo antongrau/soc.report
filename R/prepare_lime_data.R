@@ -1,6 +1,7 @@
 #' prepare.lime.data
 #' 
 #' Adds a number of attributes (header, sub.header, answer) to each variable in a data.frame. 
+#' In addition it revalue the level "Yes" in multiple choice variables from Limesurvey writh the question text.
 #' 
 #' @param x a data.frame
 #' @return a data.frame
@@ -21,8 +22,8 @@ prepare.lime.data <- function(x){
                     headers[i] <- gsub("(.*?)\\[.*?\\]", "\\1",var.lab[i])
                     answers[i] <- gsub(".*\\[(.*)\\].*", "\\1", var.lab[i])
                     
-                    headers[i] <- str_trim(headers[i])
-                    answers[i] <- str_trim(answers[i])
+                    headers[i] <- str_trim(headers[[i]])
+                    answers[i] <- str_trim(answers[[i]])
                     
                     attributes(x[,i])$header <- headers[i]
                     
