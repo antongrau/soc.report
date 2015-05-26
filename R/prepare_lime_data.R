@@ -1,7 +1,7 @@
 #' prepare.lime.data
 #' 
 #' Adds a number of attributes (header, sub.header, answer) to each variable in a data.frame. 
-#' In addition it revalue the level "Yes" in multiple choice variables from Limesurvey writh the question text.
+#' In addition it revalues the level "Yes" in multiple choice variables from Limesurvey.
 #' 
 #' @param x a data.frame
 #' @return a data.frame
