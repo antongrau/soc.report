@@ -25,7 +25,10 @@ tab1 <- table(ownership_cat, phd)
 cont <- with(directors, data.frame(turnover2004, turnover2007, result2005, rateofprofit, employees, average_salary2007))
 fact <- with(directors, data.frame(phd, mba, hd, owner, decoration, member_network, member_america ))
 
+str(directors)
+
 tab.cross(mba, hd)
+tab.cross(career_changes, hd)
 tab.freq(mba)
 grob.tab(tab.cross(mba, hd))
 

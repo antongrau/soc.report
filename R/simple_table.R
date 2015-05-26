@@ -16,7 +16,7 @@
 # The values now set as -- could be the sum proportions this should be simple
 
 tab.cross <-  function(x, y, frequencies = TRUE, prop.margin = 1, digits = 2, sum.margin = 1:2, sum.label = "Total"){
-  
+ # Test 
   freq  <- table(x,y)
   prop  <- round(prop.table(freq, prop.margin), digits)
   
@@ -28,7 +28,7 @@ tab.cross <-  function(x, y, frequencies = TRUE, prop.margin = 1, digits = 2, su
   cols  <- ncol(freq)
   pfreq <- paste("(", freq, ")", sep="")
   s     <- seq(from=dim(freq)[prop.margin], by=dim(freq)[prop.margin], to=length(prop))
-  prop[s]  <- freq[s]/(sum(freq[s])/2)
+  prop[s]  <- round(freq[s]/(sum(freq[s])/2), digits)
   prop  <- paste(format(prop*100, justify="right"), "%")
   
   
@@ -49,7 +49,7 @@ tab.cross <-  function(x, y, frequencies = TRUE, prop.margin = 1, digits = 2, su
 #' Frequency-table
 #' 
 #' @param x is a factor or character vector
-#' @digits integer indicating the number of decimal places
+#' @param digits integer indicating the number of decimal places
 #' @return a table of frequencies and proportions
 #' @export tab.freq
 
@@ -70,7 +70,7 @@ tab.freq <- function(x, digits=2){
 #' 
 #' Formats a table to a standard width
 #' @param tab is a table
-#' @standard is the width of the table in number of characters
+#' @param standard is the width of the table in number of characters
 #' @return a reformatted tabel
 #' @export standard.width.table
 

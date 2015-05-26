@@ -4,7 +4,7 @@ Description: soc.report helps you to know your data better and quickly plot
     simple descriptive statistics in the layout and design that is appropriate
     for reports within the social sciences.
 URL: https://github.com/Rsoc/soc.report
-Version: 0.1
+Version: 0.1.1
 Maintainer: Anton Grau Larsen <alar@soc.ku.dk>
 Author: Anton Grau Larsen <alar@soc.ku.dk>
 Depends:
