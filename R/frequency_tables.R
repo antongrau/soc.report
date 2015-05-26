@@ -7,10 +7,11 @@
 #'@param x a vector
 #'@param weighs a numeric vector of weights
 #'@param transpose transposes the table if set as TRUE
+#'@param cells a vector indicating which cells to export.Default is c("count", "pct")
 #'@return a data.frame
 #'@export freq.tab
 
-freq.tab <- function(x, weights=NULL, transpose=FALSE){
+freq.tab <- function(x, weights=NULL, transpose=FALSE, cells=c("count","pct")){
   
   count <- wtd.table(x, weights, type='table')
   count <- addmargins(count)
@@ -22,6 +23,16 @@ freq.tab <- function(x, weights=NULL, transpose=FALSE){
   
   out <- cbind(count,pct)
   dimnames(out)[[2]] <- c("Antal svar", "Andel (%)")
+  
+  if ("count" !%in% cells){
+    out <- pct
+    dimnames(out)[[2]] <- "Andel (%)"
+  }
+  
+  if ("pct" !%in% cells){
+    out <- count
+    dimnames(out)[[2]] <- "Antal svar"
+  }
   
   if (transpose)
     out <- t(out)
