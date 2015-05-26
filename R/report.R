@@ -13,7 +13,7 @@
 #' 
 #' Takes a data.frame of factors and makes all possible two-dimensional crosstables (\link{tab.cross}). Only the tables that pass a \link{chisq.test} are printed.
 #' @param variables is a data.frame of factors
-#' @p.test is the threshold above which all tables are rejected.
+#' @param  p.test is the threshold above which all tables are rejected.
 #' @return several plotted tables
 #' @export report.cross
 
