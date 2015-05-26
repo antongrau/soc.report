@@ -16,5 +16,7 @@ Depends:
     gridExtra,
     plyr,
     xlsx,
-    stringr
+    stringr,
+    Hmisc,
+    weights
 License: GPL-3
