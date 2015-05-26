@@ -7,7 +7,10 @@
 prepare.lime.data(x)
 }
 \arguments{
-\item{x}{a data.frame object}
+\item{x}{a data.frame}
+}
+\value{
+a data.frame
 }
 \description{
 prepare.lime.data
