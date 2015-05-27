@@ -10,7 +10,7 @@
 #'@return a data.frame
 #'@export freq.tab
 
-freq.tab <- function(x, weights=NULL, transpose=FALSE, cells=c("count","pct")){
+freq.tab <- function(x, transpose=FALSE, cells=c("count","pct"), weights=NULL){
   
   count <- wtd.table(x, weights, type='table')
   count <- addmargins(count)
@@ -65,23 +65,27 @@ freq.tab <- function(x, weights=NULL, transpose=FALSE, cells=c("count","pct")){
 #'@return a data.frame
 #'@export freq.mc
 
-freq.mc  <- function(x, yes.answer=NULL, row.number=1){
+freq.mc  <- function(x, cells=c("count", "pct"), yes.answer=NULL, row.number=1,weight=NULL){
   
   if (!is.data.frame(x))
     warning("x is not a data.frame. If x is a vector consider using freq.tab function instead")
   
-  tab.list <- llply(x,freq.tab)
+  tab.list <- llply(x,freq.tab, cells=cells, weight=weight)
   
-  row.out <- headers <- answers <- has.header <- has.answer <- vector(length=length(tab.list))
+  row.out <- headers <- sub.headers <- answers <- has.header <- has.sub.header <- has.answer <- vector(length=length(tab.list))
   for (i in 1:length(tab.list)){
     
-    has.answer[i]        <- !is.null(attributes(tab.list[[i]])$answer)
-    has.header[i]        <- !is.null(attributes(tab.list[[i]])$header)
+    has.header[i]            <- !is.null(attributes(tab.list[[i]])$header)
+    has.sub.header[i]        <- !is.null(attributes(tab.list[[i]])$sub.header)
+    has.answer[i]            <- !is.null(attributes(tab.list[[i]])$answer)
     
     if (has.header[i])
       headers[i] <- attributes(tab.list[[i]])$header
     else
       headers[i] <- names(tab.list)[i]
+    
+    if (has.sub.header[i])
+      sub.headers[i] <- attributes(tab.list[[i]])$sub.header
     
     if (has.answer[i])
       answers[i] <- attributes(tab.list[[i]])$answer
@@ -110,12 +114,27 @@ freq.mc  <- function(x, yes.answer=NULL, row.number=1){
   n.col           <- max(no.cols)
   n.rows          <- length(tab.list)
   out             <- data.frame(matrix(nrow=n.rows, ncol=n.col))
-  names(out)      <- c("Antal svar", "Andel (%)")
+  
+  if (!"count" %in% cells)
+    names(out) <- "Andel (%)"
+
+  if (!"pct" %in% cells)
+    names(out) <- "Antal svar"
+  
+  if ("count" %in% cells && "pct" %in% cells)
+    names(out)      <- c("Antal svar", "Andel (%)")
   
   dup.answers <-  duplicated(answers)
-  if (unique(dup.answers[2:length(dup.answers)]))
+  dup.sub.headers <-  duplicated(sub.headers)
+  
+  if (unique(dup.answers[2:length(dup.answers)])){
+    
     if (!unique(dup.headers[2:length(dup.headers)]))
-      row.names(out) <- headers  
+      row.names(out) <- headers
+    
+    if (!unique(dup.sub.headers[2:length(dup.sub.headers)]))
+      row.names(out) <- sub.headers
+  }
   else
     row.names(out) <- answers
 
