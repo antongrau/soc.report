@@ -2,7 +2,6 @@
 #'
 #' Creates a simple frequency table and store it in a data.frame.
 #' In additiion it adds attributes (header, sub.header, answer, type) to the output data.frame.
-#' Attributes are usefull when writing tables (data.frames) to excel (with the tabout function)
 #'
 #'@param x a vector
 #'@param weighs a numeric vector of weights
@@ -45,3 +44,83 @@ freq.tab <- function(x, weights=NULL, transpose=FALSE, cells=c("count","pct")){
   attributes(out)$type <- "freq.tab"
   out
 }
+
+#' freq.mc
+#'
+#' Creates a multiple choice frequency table from a data.frame and store it in a data.frame
+#' 
+#' When working with survey data one often finds oneself with a single variable for each element of a multiple choice question. 
+#' This function performs a frequency table on each variable in x and compounds the yes.answer into a single frequency table 
+#' and stores it in a data.frame.
+#'
+#' If a column vector within x does not have an answer attribute acribed to it, then yes.answer and row.number can be used
+#' to match which element of the vector the function should use to create the multiple choice frequency table.
+#'
+#'@param x a data.frame
+#'@param yes.answer a character value that can be used to match which element of a column vector to use in creating 
+#'the multiple choice frequency table.
+#'@param row.number a numerical value that can be used to match which element of a column vector to use in creating 
+#'the multiple choice frequency table.
+#'
+#'@return a data.frame
+#'@export freq.mc
+
+freq.mc  <- function(x, yes.answer=NULL, row.number=1){
+  
+  if (!is.data.frame(x))
+    warning("x is not a data.frame. If x is a vector consider using freq.tab function instead")
+  
+  tab.list <- llply(x,freq.tab)
+  
+  row.out <- headers <- answers <- has.header <- has.answer <- vector(length=length(tab.list))
+  for (i in 1:length(tab.list)){
+    
+    has.answer[i]        <- !is.null(attributes(tab.list[[i]])$answer)
+    has.header[i]        <- !is.null(attributes(tab.list[[i]])$header)
+    
+    if (has.header[i])
+      headers[i] <- attributes(tab.list[[i]])$header
+    else
+      headers[i] <- names(tab.list)[i]
+    
+    if (has.answer[i])
+      answers[i] <- attributes(tab.list[[i]])$answer
+    
+    else{
+      
+      if (yes.answer %in% rownames(tab.list[[i]]))
+        answers[i] <- yes.answer
+      else
+        answers[i] <- rownames(tab.list[[i]])[row.number]
+    }
+  }
+    
+  dup.headers <-  duplicated(headers)
+  
+  if (unique(dup.headers[2:length(dup.headers)]))
+    header <- headers[1]
+  else
+    header <- "" 
+    
+  no.cols <- vector(length=length(tab.list))
+  for (i in 1:length(tab.list)) 
+    no.cols[i] <- unlist(ncol(tab.list[[i]]))
+  
+  n.col           <- max(no.cols)
+  n.rows          <- length(tab.list)
+  out             <- data.frame(matrix(nrow=n.rows, ncol=n.col))
+  row.names(out)  <- answers
+  names(out)      <- c("Antal svar", "Andel (%)")
+  
+  for (i in 1:length(tab.list)){
+    row.out[i] <- which(rownames(tab.list[[i]]) %in% answers[i])
+    out[i,] <- tab.list[[i]][row.out[i],]
+  }
+  
+  attributes(out)$header          <- header
+  attributes(out)$type            <- "freq.mc"
+  out
+}          
+
+
+
