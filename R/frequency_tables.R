@@ -54,7 +54,7 @@ freq.tab <- function(x, weights=NULL, transpose=FALSE, cells=c("count","pct")){
 #' and stores it in a data.frame.
 #'
 #' If a column vector within x does not have an answer attribute acribed to it, then yes.answer and row.number can be used
-#' to match which element of the vector the function should use to create the multiple choice frequency table.
+#' to match which element of the vector the function should use instead to create the multiple choice frequency table.
 #'
 #'@param x a data.frame
 #'@param yes.answer a character value that can be used to match which element of a column vector to use in creating 
@@ -86,10 +86,11 @@ freq.mc  <- function(x, yes.answer=NULL, row.number=1){
     if (has.answer[i])
       answers[i] <- attributes(tab.list[[i]])$answer
     
-    else{
-      
-      if (yes.answer %in% rownames(tab.list[[i]]))
-        answers[i] <- yes.answer
+    else{    
+      if (!is.null(yes.answer)){
+        if (yes.answer %in% rownames(tab.list[[i]]))
+          answers[i] <- rownames(tab.list[[i]])[rownames(tab.list[[i]])==yes.answer]
+      }
       else
         answers[i] <- rownames(tab.list[[i]])[row.number]
     }
@@ -109,8 +110,15 @@ freq.mc  <- function(x, yes.answer=NULL, row.number=1){
   n.col           <- max(no.cols)
   n.rows          <- length(tab.list)
   out             <- data.frame(matrix(nrow=n.rows, ncol=n.col))
-  row.names(out)  <- answers
   names(out)      <- c("Antal svar", "Andel (%)")
+  
+  dup.answers <-  duplicated(answers)
+  if (unique(dup.answers[2:length(dup.answers)]))
+    if (!unique(dup.headers[2:length(dup.headers)]))
+      row.names(out) <- headers  
+  else
+    row.names(out) <- answers
+
   
   for (i in 1:length(tab.list)){
     row.out[i] <- which(rownames(tab.list[[i]]) %in% answers[i])

@@ -21,6 +21,5 @@ a data.frame
 \description{
 Creates a simple frequency table and store it in a data.frame.
 In additiion it adds attributes (header, sub.header, answer, type) to the output data.frame.
-Attributes are usefull when writing tables (data.frames) to excel (with the tabout function)
 }
 
