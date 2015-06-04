@@ -14,7 +14,7 @@ freq.tab <- function(x, transpose=FALSE, cells=c("count","pct"), weights=NULL){
   
   count <- wtd.table(x, weights, type='table')
   count[(length(count)+1)] <- sum(count) # i stedet for addmargins
-  count <- addmargins(count) # fucker mig med named numericals
+  #count <- addmargins(count) # fucker mig med named numericals
   names(count)[length(count)] <- "Total"
   count <- round(count, 2)
   
