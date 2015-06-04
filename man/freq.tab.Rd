@@ -4,7 +4,7 @@
 \alias{freq.tab}
 \title{freq.tab}
 \usage{
-freq.tab(x, weights = NULL, transpose = FALSE, cells = c("count", "pct"))
+freq.tab(x, transpose = FALSE, cells = c("count", "pct"), weights = NULL)
 }
 \arguments{
 \item{x}{a vector}
@@ -19,7 +19,7 @@ freq.tab(x, weights = NULL, transpose = FALSE, cells = c("count", "pct"))
 a data.frame
 }
 \description{
-Creates a simple frequency table and store it in a data.frame.
+Creates a simple frequency table and stores it in a data.frame.
 In additiion it adds attributes (header, sub.header, answer, type) to the output data.frame.
 }
 

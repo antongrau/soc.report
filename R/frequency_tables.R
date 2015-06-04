@@ -1,6 +1,6 @@
 #' freq.tab
 #'
-#' Creates a simple frequency table and store it in a data.frame.
+#' Creates a simple frequency table and stores it in a data.frame.
 #' In additiion it adds attributes (header, sub.header, answer, type) to the output data.frame.
 #'
 #'@param x a vector
@@ -13,12 +13,15 @@
 freq.tab <- function(x, transpose=FALSE, cells=c("count","pct"), weights=NULL){
   
   count <- wtd.table(x, weights, type='table')
-  count <- addmargins(count)
+  count[(length(count)+1)] <- sum(count) # i stedet for addmargins
+  count <- addmargins(count) # fucker mig med named numericals
   names(count)[length(count)] <- "Total"
+  count <- round(count, 2)
   
   pct <- wpct(x, weights)
   pct[(length(pct)+1)] <- sum(pct)
   names(pct)[length(pct)] <- "Total"
+  pct <- round(pct, 2)
   
   out <- cbind(count,pct)
   dimnames(out)[[2]] <- c("Antal svar", "Andel (%)")
@@ -47,15 +50,14 @@ freq.tab <- function(x, transpose=FALSE, cells=c("count","pct"), weights=NULL){
 
 #' freq.mc
 #'
-#' Creates a multiple choice frequency table from a data.frame and store it in a data.frame
+#' Creates a multiple choice frequency table from the column vectors in a data.frame.
 #' 
 #' When working with survey data one often finds oneself with a single variable for each element of a multiple choice question. 
 #' This function performs a frequency table on each variable in x and compounds the yes.answer into a single frequency table 
 #' and stores it in a data.frame.
 #'
 #' If a column vector within x does not have an answer attribute acribed to it, then yes.answer and row.number can be used
-#' to match which element of the vector the function should use instead to create the multiple choice frequency table.
-#'
+#' to match which element of the vector the function should use instead.
 #'@param x a data.frame
 #'@param yes.answer a character value that can be used to match which element of a column vector to use in creating 
 #'the multiple choice frequency table.
@@ -148,6 +150,3 @@ freq.mc  <- function(x, cells=c("count", "pct"), yes.answer=NULL, row.number=1,w
   attributes(out)$type            <- "freq.mc"
   out
 }          
-
-
-

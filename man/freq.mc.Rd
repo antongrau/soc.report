@@ -4,7 +4,8 @@
 \alias{freq.mc}
 \title{freq.mc}
 \usage{
-freq.mc(x, yes.answer = NULL, row.number = 1)
+freq.mc(x, cells = c("count", "pct"), yes.answer = NULL, row.number = 1,
+  weight = NULL)
 }
 \arguments{
 \item{x}{a data.frame}
@@ -19,7 +20,7 @@ the multiple choice frequency table.}
 a data.frame
 }
 \description{
-Creates a multiple choice frequency table from a data.frame and store it in a data.frame
+Creates a multiple choice frequency table from the column vectors in a data.frame.
 }
 \details{
 When working with survey data one often finds oneself with a single variable for each element of a multiple choice question.
@@ -27,6 +28,6 @@ This function performs a frequency table on each variable in x and compounds the
 and stores it in a data.frame.
 
 If a column vector within x does not have an answer attribute acribed to it, then yes.answer and row.number can be used
-to match which element of the vector the function should use to create the multiple choice frequency table.
+to match which element of the vector the function should use instead.
 }
 
