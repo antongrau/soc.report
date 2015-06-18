@@ -10,32 +10,31 @@
 #'@return a data.frame
 #'@export freq.tab
 
-freq.tab <- function(x, transpose=FALSE, cells=c("count","pct"), weights=NULL){
+freq.tab <- function(x, transpose=FALSE, cells=c("count","pct"), weights=NULL, digits=3){
   
   count <- wtd.table(x, weights, type='table')
-  count[(length(count)+1)] <- sum(count) # i stedet for addmargins
-  #count <- addmargins(count) # fucker mig med named numericals
+  count[(length(count)+1)] <- sum(count) # addmargins fucker med mig ved named numericals
   names(count)[length(count)] <- "Total"
-  count <- round(count, 2)
+  count <- round(count, digits)
   
   pct <- wpct(x, weights)
   pct[(length(pct)+1)] <- sum(pct)
   names(pct)[length(pct)] <- "Total"
-  pct <- round(pct, 2)
+  pct <- round(pct, digits)
   
   out <- cbind(count,pct)
-  dimnames(out)[[2]] <- c("Antal svar", "Andel (%)")
+  dimnames(out)[[2]] <- c("Antal", "Procent")
   
   out <- data.frame(out, check.names=FALSE)
   
   if (!"count" %in% cells){
     out <- data.frame(pct)
-    names(out) <- "Andel (%)"
+    names(out) <- "Procent"
   }
   
   if (!"pct" %in% cells){
     out <- data.frame(count)
-    names(out) <- "Antal svar"
+    names(out) <- "Antal"
   }
   
   if (transpose)
@@ -118,13 +117,13 @@ freq.mc  <- function(x, cells=c("count", "pct"), yes.answer=NULL, row.number=1,w
   out             <- data.frame(matrix(nrow=n.rows, ncol=n.col))
   
   if (!"count" %in% cells)
-    names(out) <- "Andel (%)"
+    names(out) <- "Procent"
 
   if (!"pct" %in% cells)
-    names(out) <- "Antal svar"
+    names(out) <- "Antal"
   
   if ("count" %in% cells && "pct" %in% cells)
-    names(out)      <- c("Antal svar", "Andel (%)")
+    names(out)      <- c("Antal", "Procent")
   
   dup.answers <-  duplicated(answers)
   dup.sub.headers <-  duplicated(sub.headers)
