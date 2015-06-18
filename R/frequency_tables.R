@@ -181,7 +181,7 @@ freq.scale <- function(x,cells=c("count", "pct"), weight=NULL, header=NULL){
     Gennemsnit      <- mean(x.numeric, na.rm=T)
   }
   
-  Middelværdi      <- round(Gennemsnit,2)
+  Gennemsnit      <- round(Gennemsnit,2)
   
   
   Antal <- vector(length=length(tab.list.pct))
