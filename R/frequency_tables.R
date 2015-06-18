@@ -149,3 +149,90 @@ freq.mc  <- function(x, cells=c("count", "pct"), yes.answer=NULL, row.number=1,w
   attributes(out)$type            <- "freq.mc"
   out
 }          
+
+
+#' freq.scale
+#'
+#' Creates a frequency table from the column vectors in a data.frame.
+#' @param x a data.frame
+#' @param weighs a numeric vector of weights
+#' @param header add a header (for tabout)
+#' @param cells a vector indicating which cells to export.Default is c("count", "pct")
+#' @return a data.frame
+#' @export freq.scale
+
+
+freq.scale <- function(x,cells=c("count", "pct"), weight=NULL, header=NULL){
+  
+  if (is.data.frame(x)){
+    tab.list.count <- llply(x,freq.tab, cells="count", weight=weight, transpose=T)
+    tab.list.pct   <- llply(x,freq.tab, cells="pct", weight=weight, transpose=T)
+  }
+  else{
+    tab.list.count <- list(freq.tab(x, cells="count", weight=weight, transpose=T))
+    tab.list.pct <- list(freq.tab(x, cells="pct", weight=weight, transpose=T))
+  }
+  if (is.data.frame(x)){
+    x.numeric       <- llply(x, as.numeric)
+    Gennemsnit      <- laply(x.numeric, mean, na.rm=T)
+  }
+  else{
+    x.numeric       <- laply(x, as.numeric)
+    Gennemsnit      <- mean(x.numeric, na.rm=T)
+  }
+  
+  Middelværdi      <- round(Gennemsnit,2)
+  
+  
+  Antal <- vector(length=length(tab.list.pct))
+  
+  for (i in 1:length(tab.list.count))
+    Antal[i] <- unlist(tab.list.count[[i]][length(tab.list.count[[i]])])
+  
+  no.rows <- vector(length=length(tab.list.pct))
+  no.col  <- ncol(tab.list.pct[[1]])+2
+  out.pct <- data.frame(matrix(nrow=length(no.rows), ncol=no.col))
+  
+  for (i in 1:length(tab.list.pct)){
+    out.pct[i,] <- cbind(tab.list.pct[[i]], Antal[i],Gennemsnit[i])
+  }
+  
+  col.names <- vector("list",length=length(tab.list.pct))
+  has.header <- has.sub.header <- headers <- sub.headers <- vector(length=length(tab.list.pct))
+  
+  for (i in 1:length(tab.list.pct)){
+    col.names[[i]]        <- attributes(tab.list.pct[[i]])$names
+    has.header[i]         <- !is.null(attributes(tab.list.pct[[i]])$header)
+    has.sub.header[i]     <- !is.null(attributes(tab.list.pct[[i]])$sub.header)
+    
+    if (has.header[i])
+      headers[i]    <- unlist(attributes(tab.list.pct[[i]])$header)
+    #                     else 
+    #                               headers[i]    <- attributes(tab.list.pct)$names[i]
+    
+    if (has.sub.header[i])
+      sub.headers[i]    <- unlist(attributes(tab.list.pct[[i]])$sub.header)  
+    
+    else 
+      sub.headers[i]    <- attributes(tab.list.pct)$names[i]
+  }
+  
+  if (!is.null(header))
+    header <- header
+  else{
+    
+    if(has.header[1])
+      header <- headers[1]
+  }
+  
+  row.names(out.pct) <- sub.headers
+  names(out.pct)     <- c(col.names[[1]],"Antal", "Gennemsnit")
+  
+  attributes(out.pct)$header <- header
+  attributes(out.pct)$answer <- sub.headers
+  attributes(out.pct)$type <- "frec.scale"
+  out.pct
+}
+
+
+
