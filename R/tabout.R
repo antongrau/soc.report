@@ -18,8 +18,8 @@ tabout <- function(x, sheet.name=NULL, file="My_tables.xlsx", row.break.length=2
           else {
                     my_workbook <- loadWorkbook(file)
                     my_sheets <- getSheets(my_workbook)
-                    if (!is.null(sheetname) && sheetname %in% names(my_sheets))
-                              removeSheet(my_workbook, sheetname)    
+                    if (!is.null(sheet.name) && sheet.name %in% names(my_sheets))
+                              removeSheet(my_workbook, sheet.name)    
           }          
           new.sheet <- createSheet(my_workbook, sheetName = sheet.name)
 

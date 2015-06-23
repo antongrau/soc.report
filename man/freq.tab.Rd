@@ -4,7 +4,8 @@
 \alias{freq.tab}
 \title{freq.tab}
 \usage{
-freq.tab(x, transpose = FALSE, cells = c("count", "pct"), weights = NULL)
+freq.tab(x, transpose = FALSE, cells = c("count", "pct"), weights = NULL,
+  digits = 3)
 }
 \arguments{
 \item{x}{a vector}

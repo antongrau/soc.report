@@ -22,9 +22,11 @@ prepare.lime.data <- function(x){
                     headers[i] <- gsub("(.*?)\\[.*?\\]", "\\1",var.lab[i])
                     answers[i] <- gsub(".*\\[(.*)\\].*", "\\1", var.lab[i])
                     
+                    
                     headers[i] <- str_trim(headers[[i]])
                     answers[i] <- str_trim(answers[[i]])
                     
+                    attributes(x[,i])$var.lab <- var.lab[i]
                     attributes(x[,i])$header <- unlist(headers[i])
                     
                     if (is.factor(x[,i]) && c("Not selected") %in% levels(x[,i])){

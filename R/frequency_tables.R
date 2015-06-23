@@ -234,5 +234,57 @@ freq.scale <- function(x,cells=c("count", "pct"), weight=NULL, header=NULL){
   out.pct
 }
 
+#' cross.tab
+#'
+#' Creates a frequency table from the column vectors in a data.frame.
+#' @param x a vector
+#' @param y a vector
+#' @param weighs a numeric vector of weights
+#' @param either "row", "column" or "count"
+#' @return a data.frame
+#' @export cross.tab
+
+cross.tab  <- function(x,y, cells="row", chisq=T, weight=NULL){
+          
+          table <- crosstab(x,y, weight, plot=F, prop.r=T, prop.c=T, chisq=T)
+          
+          if(cells=="row"){
+                    tab     <- round(table$prop.row,3)
+                    margins <- round(addmargins(table$prop.row,2),3)
+                    Total   <- margins[,ncol(margins)]
+                    tab     <- cbind(tab,Total)
+          }
+          if(cells=="column"){
+                    tab <- round(table$prop.col,3)
+                    margins <- round(addmargins(table$prop.col,1),3)
+                    Total   <- margins[nrow(margins),]
+                    tab     <- rbind(tab,Total)
+          }
+          if(cells=="count"){
+                    tab <- round(table$t)
+                    margins <- round(addmargins(table$t,2),3)
+                    Total   <- margins[,ncol(margins)]
+                    tab     <- cbind(tab,Total)
+          }
+          
+          out            <- data.frame(tab)
+          colnames(out)  <- dimnames(tab)[[2]]
+          
+          if(chisq){
+                    chi        <- table$CST
+                    method     <- paste(chi$method,":", sep="")
+                    x.squared  <- paste(names(chi$statistic),"=", round(chi$statistic,3))
+                    df         <- paste("Degrees of freedom","=",chi$parameter)
+                    p.value    <- paste("P-value","=",round(chi$p.value,3))
+                    
+                    attributes(out)$sub.header <- paste(p.value)
+                    
+          }
+          
+          attributes(out)$header <- paste(attributes(y)$var.lab,"BY",attributes(x)$header)
+          attributes(out)$type  <- "cross"
+          out
+          
+}
 
 
