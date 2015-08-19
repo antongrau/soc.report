@@ -35,7 +35,7 @@ tabout <- function(x, sheet.name=NULL, file="My_tables.xlsx", row.break.length=2
                     has.sub.header[i] <- !is.null(attributes(x[[i]])$sub.header)
                     
                     if(has.header[i]){headers[i] <- unlist(attributes(x[[i]])$header)}
-                    else {headers[i] <- attributes(x)$names[i]}
+                    else {headers[i] <- paste(attributes(x)$names[i],attributes(x)$variable.labels[i])}
                     
                     if (has.sub.header[i]){sub.headers[i] <- unlist(attributes(x[[i]])$sub.header)}
           }
