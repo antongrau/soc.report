@@ -100,11 +100,10 @@ freq.mc  <- function(x, cells=c("count", "pct"), yes.answer=NULL, row.number=1,w
         answers[i] <- rownames(tab.list[[i]])[row.number]
     }
   }
-    
-  dup.headers <-  duplicated(headers)
   
-  if (unique(dup.headers[2:length(dup.headers)]))
+  if(length(unique(headers)) == 1)
     header <- headers[1]
+  
   else
     header <- "" 
     
