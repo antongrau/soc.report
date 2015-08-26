@@ -28,7 +28,7 @@ freq.tab <- function(x, transpose=FALSE, weights=NULL, digits=3, cumsum = TRUE, 
             cumsum              <- c(pct.cumsum,pct.cumsum[length(pct.cumsum)])
             cumsum              <- round(cumsum, digits)
             out                 <- cbind(count,pct,cumsum)
-            dimnames(out)[[2]]  <- c("Antal", "Procent","Cum")
+            dimnames(out)[[2]]  <- c("Antal", "Procent","Kumulativ procent")
   }
   
   else {
