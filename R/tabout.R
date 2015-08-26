@@ -35,9 +35,10 @@ tabout       <- function (
           
           new.sheet <- createSheet(my_workbook, sheetName = sheet.name)
           
+          ##
           
           if (is.data.frame(x)) 
-                    x <- list(x)
+                    x <- list(x)          
           
           
           # identificer hvilke rækker tabeller og headers skal smides ud i
@@ -61,7 +62,7 @@ tabout       <- function (
           header.rows  <- start.rows - 1  
           
           ###
-          cs           <- style(my_workbook, style = 1)  # Erstat 1 med style
+          cs           <- style(my_workbook, style = style)  # Erstat 1 med style
           
           cb.rows      <- createRow(new.sheet, 1:tail(end.rows, 1))
           cb.cells     <- createCell(cb.rows, 1:(max(n.cols)+1))
@@ -89,18 +90,25 @@ tabout       <- function (
           
           lapply(cell.sub.headers, setCellStyle, cs$sub.header.style)
           lapply(cell.headers, setCellStyle, cs$header.style)
+          #lapply(cell.sub.headers, setCellValue, attributes(x)$CST)
           
+          l_ply(seq_along(x), function(i){
+                    
+                    if (!is.null(attributes(x[[i]])$CST))
+                              setCellValue(cell.sub.headers[[i]], attributes(x[[i]])$p.value)
+          })
           
-          if (!is.null(my.headers)){
+          if (!is.null(headers)){
                     
                     l_ply(seq_along(x), function(i){
-                              setCellValue(cell.headers[[i]], headers[i])
-                    })
+                              setCellValue(cell.headers[[i]], my.headers[i])
+                              })
           }
           
           setColumnWidth(new.sheet, colIndex = 1, colWidth = 15)
           setRowHeight(row.sub.headers, 15)
           
+
           ###
           if (write) 
                     saveWorkbook(my_workbook, file)
