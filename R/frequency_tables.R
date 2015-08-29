@@ -247,37 +247,37 @@ freq.scale <- function(x,cells=c("count", "pct"), weight=NULL, header=NULL){
 #' @return a data.frame
 #' @export cross.tab
 
-# cross.tab  <- function(dep,indep, cells="row", chisq=T, weight=NULL, digits = 3){
-#           
-#           table <- crosstab(dep,indep, weight, plot = F, prop.r = T, prop.c = T, prop.t = T, chisq = T)
-#           
-#           if(any(c("Row","row","r","R") %in% cells){
-#                     tab                       <- round(addmargins(table$prop.row,2),digits)
-#                     colnames(tab)[ncol(tab)]  <- "Total"
-#           }
-#           
-#           if(any(c("Col","col","c","C","Columns","columns") %in% cells){
-#                     tab                       <- round(addmargins(table$prop.row,1),digits)
-#                     rownames(tab)[nrow(tab)]  <- "Total"
-#           }
-#           
-#           if(any(c("Count","count") %in% cells){
-#                     tab                       <- round(addmargins(table$t,2),digits)
-#                     colnames(tab)[ncol(tab)]  <- "Total"
-#           }
-#           
-#           out            <- as.data.frame.matrix(tab)
-#           
-#           if(chisq){
-#                     cst                      <- table$CST
-#                     attributes(out)$p.value  <- cst$p.value
-#                     attributes(out)$CST      <- cst
-#           }
-#           
-#           #           attributes(out)$header <- paste(attributes(y)$var.lab,"BY",attributes(x)$header)
-#           #           attributes(out)$type  <- "cross"
-#           out
-#           
-# }
+cross.tab  <- function(dep,indep, cells="row", chisq=T, weight=NULL, digits = 3){
+          
+          table <- crosstab(dep,indep, weight, plot = F, prop.r = T, prop.c = T, prop.t = T, chisq = T)
+          
+          if(any(c("Row","row","r","R") %in% cells)){
+                    tab                       <- round(addmargins(table$prop.row,2),digits)
+                    colnames(tab)[ncol(tab)]  <- "Total"
+          }
+          
+          if(any(c("Col","col","c","C","Columns","columns") %in% cells)){
+                    tab                       <- round(addmargins(table$prop.row,1),digits)
+                    rownames(tab)[nrow(tab)]  <- "Total"
+          }
+          
+          if(any(c("Count","count") %in% cells)){
+                    tab                       <- round(addmargins(table$t,2),digits)
+                    colnames(tab)[ncol(tab)]  <- "Total"
+          }
+          
+          out            <- as.data.frame.matrix(tab)
+          
+          if(chisq){
+                    cst                      <- table$CST
+                    attributes(out)$p.value  <- cst$p.value
+                    attributes(out)$CST      <- cst
+          }
+          
+          #           attributes(out)$header <- paste(attributes(y)$var.lab,"BY",attributes(x)$header)
+          #           attributes(out)$type  <- "cross"
+          out
+          
+}
 
 
