@@ -4,7 +4,7 @@
 \alias{tabout}
 \title{tabout}
 \usage{
-tabout(x, sheet.name = NULL, file = "My_tables.xlsx",
+tabout(x, sheet.name = NULL, overwrite = TRUE, file = "My_tables.xlsx",
   row.break.length = 2, write = TRUE, style = 1, dropif = 30,
   headers = names(x))
 }
@@ -12,6 +12,8 @@ tabout(x, sheet.name = NULL, file = "My_tables.xlsx",
 \item{x}{a list or a data.frame}
 
 \item{sheet.name}{name your sheet}
+
+\item{overwrite}{}
 
 \item{file}{filename}
 

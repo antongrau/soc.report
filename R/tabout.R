@@ -3,6 +3,7 @@
 #' takes a list of dataframes and write them to a sheet
 #' @param x a list or a data.frame
 #' @param sheet.name name your sheet
+#' @param overwrite 
 #' @param file filename
 #' @param row.break.length number of empty rows between dataframes in sheet
 #' @param write if false returns workbook
@@ -12,7 +13,8 @@
 
 tabout       <- function (
           x, 
-          sheet.name = NULL, 
+          sheet.name = NULL,
+          overwrite = TRUE,
           file = "My_tables.xlsx", 
           row.break.length = 2, 
           write = TRUE, 
@@ -22,17 +24,20 @@ tabout       <- function (
 {
           
           # load or write my_workbook
-          if ("try-error" %in% class(try(loadWorkbook(file), silent = T))) 
+          if (overwrite)
                     my_workbook    <- createWorkbook()
-          
           else {
-                    my_workbook    <- loadWorkbook(file)
-                    my_sheets      <- getSheets(my_workbook)
-                    
-                    if (!is.null(sheet.name))
-                              removeSheet(my_workbook, sheet.name)
+                    if ("try-error" %in% class(try(loadWorkbook(file), silent = T))) 
+                              my_workbook    <- createWorkbook()
+                    else {
+                              my_workbook   <- loadWorkbook(file)
+                              my_sheets     <- getSheets(my_workbook)
+                              
+                              if (sheet.name %in% names(my_sheets))
+                                        removeSheet(my_workbook, sheet.name)
+                    }
           }
-          
+
           new.sheet <- createSheet(my_workbook, sheetName = sheet.name)
           
           ##
