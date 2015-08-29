@@ -18,7 +18,7 @@ tabout       <- function (
           write = TRUE, 
           style = 1,
           dropif = 30,
-          headers = NULL) 
+          headers = names(x)) 
 {
           
           # load or write my_workbook
