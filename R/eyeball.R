@@ -14,7 +14,7 @@
 eyeball  <- function(dep,
                      vars,
                      weight = NULL,
-                     cell = "prop.c"
+                     cell = "prop.c",
                      p.value = 0.05){
           
           out.list <- chi.list <- subtitles  <- list()
