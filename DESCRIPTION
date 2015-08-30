@@ -18,5 +18,6 @@ Depends:
     xlsx,
     stringr,
     Hmisc,
-    weights
+    weights,
+    descr
 License: GPL-3
