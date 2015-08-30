@@ -20,7 +20,8 @@ tabout       <- function (
           write = TRUE, 
           style = 1,
           dropif = 30,
-          headers = names(x)) 
+          headers = names(x),
+          header.pos = 1) 
 {
           
           # load or write my_workbook
@@ -90,7 +91,7 @@ tabout       <- function (
           
           row.headers          <- getRows(new.sheet, header.rows)
           row.sub.headers      <- getRows(new.sheet, start.rows)
-          cell.headers         <- getCells(row.headers, colIndex = 1)
+          cell.headers         <- getCells(row.headers, colIndex = header.pos)
           cell.sub.headers     <- getCells(row.sub.headers, colIndex = 1)
           
           lapply(cell.sub.headers, setCellStyle, cs$sub.header.style)
@@ -111,7 +112,8 @@ tabout       <- function (
           }
           
           #setColumnWidth(new.sheet, colIndex = 1, colWidth = 15)
-          setRowHeight(row.sub.headers, 15)
+          all.rows  <- getRows(new.sheet)
+          setRowHeight(all.rows, 15)
           
 
           ###
@@ -265,7 +267,7 @@ style <- function(wb = my_workbook, style=1){
     col.name.style   <- c.name.style + font1 + r.align + border1
     col.style        <- c.style + font1 + r.align + border1
     header.style     <- h.style + font2 + l.align2
-    sub.header.style <- sh.style + font1 + l.align  + border1
+    sub.header.style <- sh.style + font2 + l.align  + border1
     
   }
   

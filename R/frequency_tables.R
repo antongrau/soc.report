@@ -247,16 +247,16 @@ freq.scale <- function(x,cells=c("count", "pct"), weight=NULL, header=NULL){
 #' @return a data.frame
 #' @export cross.tab
 
-cross.tab  <- function(dep,indep, cells="row", chisq=T, weight=NULL, digits = 3){
+cross.tab  <- function(dep,indep, cells="prop.r", chisq=T, weight=NULL, digits = 3){
           
           table <- crosstab(dep,indep, weight, plot = F, prop.r = T, prop.c = T, prop.t = T, chisq = T)
           
-          if(any(c("Row","row","r","R") %in% cells)){
+          if(any(c("Row","row","r","R", "prop.r", "Prop.r") %in% cells)){
                     tab                       <- round(addmargins(table$prop.row,2),digits)
                     colnames(tab)[ncol(tab)]  <- "Total"
           }
           
-          if(any(c("Col","col","c","C","Columns","columns") %in% cells)){
+          if(any(c("Col","col","c","C","Columns","columns", "prop.c", "Prop.c") %in% cells)){
                     tab                       <- round(addmargins(table$prop.row,1),digits)
                     rownames(tab)[nrow(tab)]  <- "Total"
           }
