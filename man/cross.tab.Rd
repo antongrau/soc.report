@@ -4,7 +4,8 @@
 \alias{cross.tab}
 \title{cross.tab}
 \usage{
-cross.tab(x, y, cells = "row", chisq = T, weight = NULL)
+cross.tab(dep, indep, cells = "row", chisq = T, weight = NULL,
+  digits = 3)
 }
 \arguments{
 \item{x}{a vector}

@@ -3,6 +3,7 @@
 #' takes a list of dataframes and write them to a sheet
 #' @param x a list or a data.frame
 #' @param sheet.name name your sheet
+#' @param overwrite 
 #' @param file filename
 #' @param row.break.length number of empty rows between dataframes in sheet
 #' @param write if false returns workbook
@@ -12,32 +13,38 @@
 
 tabout       <- function (
           x, 
-          sheet.name = NULL, 
+          sheet.name = NULL,
+          overwrite = TRUE,
           file = "My_tables.xlsx", 
           row.break.length = 2, 
           write = TRUE, 
           style = 1,
           dropif = 30,
-          headers = NULL) 
+          headers = names(x),
+          header.pos = 1) 
 {
           
           # load or write my_workbook
-          if ("try-error" %in% class(try(loadWorkbook(file), silent = T))) 
+          if (overwrite)
                     my_workbook    <- createWorkbook()
-          
           else {
-                    my_workbook    <- loadWorkbook(file)
-                    my_sheets      <- getSheets(my_workbook)
-                    
-                    if (!is.null(sheet.name))
-                              removeSheet(my_workbook, sheet.name)
+                    if ("try-error" %in% class(try(loadWorkbook(file), silent = T))) 
+                              my_workbook    <- createWorkbook()
+                    else {
+                              my_workbook   <- loadWorkbook(file)
+                              my_sheets     <- getSheets(my_workbook)
+                              
+                              if (sheet.name %in% names(my_sheets))
+                                        removeSheet(my_workbook, sheet.name)
+                    }
           }
-          
+
           new.sheet <- createSheet(my_workbook, sheetName = sheet.name)
           
+          ##
           
           if (is.data.frame(x)) 
-                    x <- list(x)
+                    x <- list(x)          
           
           
           # identificer hvilke rækker tabeller og headers skal smides ud i
@@ -61,7 +68,7 @@ tabout       <- function (
           header.rows  <- start.rows - 1  
           
           ###
-          cs           <- style(my_workbook, style = 1)  # Erstat 1 med style
+          cs           <- style(my_workbook, style = style)  # Erstat 1 med style
           
           cb.rows      <- createRow(new.sheet, 1:tail(end.rows, 1))
           cb.cells     <- createCell(cb.rows, 1:(max(n.cols)+1))
@@ -72,7 +79,7 @@ tabout       <- function (
                     df.col.index          <- rep(list(cs$col.style), dim(x[[i]])[2])
                     names(df.col.index)   <- seq(1, dim(x[[i]])[2], by = 1)
                     
-                    addMergedRegion(new.sheet, header.rows[i], header.rows[i], 1, n.cols[i] + 1)
+                    #addMergedRegion(new.sheet, header.rows[i], header.rows[i], 1, n.cols[i] + 1)
                     
                     addDataFrame(x[[i]], new.sheet, 
                                  startRow = start.rows[i],
@@ -84,23 +91,31 @@ tabout       <- function (
           
           row.headers          <- getRows(new.sheet, header.rows)
           row.sub.headers      <- getRows(new.sheet, start.rows)
-          cell.headers         <- getCells(row.headers, colIndex = 1)
+          cell.headers         <- getCells(row.headers, colIndex = header.pos)
           cell.sub.headers     <- getCells(row.sub.headers, colIndex = 1)
           
           lapply(cell.sub.headers, setCellStyle, cs$sub.header.style)
           lapply(cell.headers, setCellStyle, cs$header.style)
+          #lapply(cell.sub.headers, setCellValue, attributes(x)$CST)
           
+          l_ply(seq_along(x), function(i){
+                    
+                    if (!is.null(attributes(x[[i]])$sub.header))
+                              setCellValue(cell.sub.headers[[i]], attributes(x[[i]])$sub.header)
+          })
           
-          if (!is.null(my.headers)){
+          if (!is.null(headers)){
                     
                     l_ply(seq_along(x), function(i){
-                              setCellValue(cell.headers[[i]], headers[i])
-                    })
+                              setCellValue(cell.headers[[i]], my.headers[i])
+                              })
           }
           
-          setColumnWidth(new.sheet, colIndex = 1, colWidth = 15)
-          setRowHeight(row.sub.headers, 15)
+          #setColumnWidth(new.sheet, colIndex = 1, colWidth = 15)
+          all.rows  <- getRows(new.sheet)
+          setRowHeight(all.rows, 15)
           
+
           ###
           if (write) 
                     saveWorkbook(my_workbook, file)
@@ -238,7 +253,25 @@ style <- function(wb = my_workbook, style=1){
   r.name.style <- c.name.style <- c.style <- h.style <- sh.style <- CellStyle(wb) 
   
   #1 style
-  if (style ==1){
+  if (style == 1){
+    font1      <- Font(wb,heightInPoints=9, name="Helvetica")
+    font2      <- Font(wb,heightInPoints=10, name="Helvetica", isBold=T)
+    l.align    <- Alignment(h="ALIGN_LEFT", wrapText=T)
+    l.align2   <- Alignment(h="ALIGN_LEFT", wrapText=F)
+    c.align    <- Alignment(h="ALIGN_CENTER", wrapText=T)
+    r.align    <- Alignment(h="ALIGN_RIGHT", wrapText=T)
+    fill1      <- Fill(backgroundColor="#AAAAAA",foregroundColor="#AAAAAA")
+    border1    <- Border(position=c("TOP", "BOTTOM", "LEFT", "RIGHT"))
+    
+    row.name.style   <- r.name.style + font1 + l.align + border1
+    col.name.style   <- c.name.style + font1 + r.align + border1
+    col.style        <- c.style + font1 + r.align + border1
+    header.style     <- h.style + font2 + l.align2
+    sub.header.style <- sh.style + font2 + l.align  + border1
+    
+  }
+  
+  if (style == 2){
     font1      <- Font(wb,heightInPoints=9, name="Helvetica")
     font2      <- Font(wb,heightInPoints=10, name="Helvetica", isBold=T)
     l.align    <- Alignment(h="ALIGN_LEFT", wrapText=T)
@@ -253,8 +286,8 @@ style <- function(wb = my_workbook, style=1){
     col.style        <- c.style + font1 + r.align + border1
     header.style     <- h.style + font2 + l.align2
     sub.header.style <- sh.style + font1 + l.align  + border1 + fill1
-    
   }
+  
   styles <- list(row.name.style, col.name.style,col.style,header.style, sub.header.style)
   names(styles) <- c("row.name.style", "col.name.style","col.style","header.style", "sub.header.style")
   styles

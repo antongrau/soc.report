@@ -10,32 +10,36 @@
 #'@return a data.frame
 #'@export freq.tab
 
-freq.tab <- function(x, transpose=FALSE, cells=c("count","pct"), weights=NULL, digits=3){
+freq.tab <- function(x, transpose=FALSE, weights=NULL, digits=3, cumsum = TRUE, screen = TRUE){
   
   count <- wtd.table(x, weights, type='table')
   count[(length(count)+1)] <- sum(count) # addmargins fucker med mig ved named numericals
   names(count)[length(count)] <- "Total"
-  count <- round(count, digits)
+  count <- round(count)
   
   pct <- wpct(x, weights)
+  pct.cumsum  <- cumsum(pct)
   pct[(length(pct)+1)] <- sum(pct)
   names(pct)[length(pct)] <- "Total"
   pct <- round(pct, digits)
+ 
   
-  out <- cbind(count,pct)
-  dimnames(out)[[2]] <- c("Antal", "Procent")
+  if (cumsum){
+            cumsum              <- c(pct.cumsum,pct.cumsum[length(pct.cumsum)])
+            cumsum              <- round(cumsum, digits)
+            out                 <- cbind(count,pct,cumsum)
+            dimnames(out)[[2]]  <- c("Antal", "Procent","Kumulativ procent")
+  }
+  
+  else {
+            out <- cbind(count,pct)
+            dimnames(out)[[2]] <- c("Antal", "Procent") 
+  }
   
   out <- data.frame(out, check.names=FALSE)
   
-  if (!"count" %in% cells){
-    out <- data.frame(pct)
-    names(out) <- "Procent"
-  }
-  
-  if (!"pct" %in% cells){
-    out <- data.frame(count)
-    names(out) <- "Antal"
-  }
+  if (screen)
+  out[,2:3]    <- out[,2:3]*100
   
   if (transpose)
     out <- data.frame(t(out), check.names=FALSE)
@@ -243,45 +247,35 @@ freq.scale <- function(x,cells=c("count", "pct"), weight=NULL, header=NULL){
 #' @return a data.frame
 #' @export cross.tab
 
-cross.tab  <- function(x,y, cells="row", chisq=T, weight=NULL){
+cross.tab  <- function(dep,indep, cells="prop.r", chisq=T, weight=NULL, digits = 3){
           
-          table <- crosstab(x,y, weight, plot=F, prop.r=T, prop.c=T, chisq=T)
+          table <- crosstab(dep,indep, weight, plot = F, prop.r = T, prop.c = T, prop.t = T, chisq = T)
           
-          if(cells=="row"){
-                    tab     <- round(table$prop.row,3)
-                    margins <- round(addmargins(table$prop.row,2),3)
-                    Total   <- margins[,ncol(margins)]
-                    tab     <- cbind(tab,Total)
-          }
-          if(cells=="column"){
-                    tab <- round(table$prop.col,3)
-                    margins <- round(addmargins(table$prop.col,1),3)
-                    Total   <- margins[nrow(margins),]
-                    tab     <- rbind(tab,Total)
-          }
-          if(cells=="count"){
-                    tab <- round(table$t)
-                    margins <- round(addmargins(table$t,2),3)
-                    Total   <- margins[,ncol(margins)]
-                    tab     <- cbind(tab,Total)
+          if(any(c("Row","row","r","R", "prop.r", "Prop.r") %in% cells)){
+                    tab                       <- round(addmargins(table$prop.row,2),digits)
+                    colnames(tab)[ncol(tab)]  <- "Total"
           }
           
-          out            <- data.frame(tab)
-          colnames(out)  <- dimnames(tab)[[2]]
+          if(any(c("Col","col","c","C","Columns","columns", "prop.c", "Prop.c") %in% cells)){
+                    tab                       <- round(addmargins(table$prop.row,1),digits)
+                    rownames(tab)[nrow(tab)]  <- "Total"
+          }
+          
+          if(any(c("Count","count") %in% cells)){
+                    tab                       <- round(addmargins(table$t,2),digits)
+                    colnames(tab)[ncol(tab)]  <- "Total"
+          }
+          
+          out            <- as.data.frame.matrix(tab)
           
           if(chisq){
-                    chi        <- table$CST
-                    method     <- paste(chi$method,":", sep="")
-                    x.squared  <- paste(names(chi$statistic),"=", round(chi$statistic,3))
-                    df         <- paste("Degrees of freedom","=",chi$parameter)
-                    p.value    <- paste("P-value","=",round(chi$p.value,3))
-                    
-                    attributes(out)$sub.header <- paste(p.value)
-                    
+                    cst                      <- table$CST
+                    attributes(out)$p.value  <- cst$p.value
+                    attributes(out)$CST      <- cst
           }
           
-          attributes(out)$header <- paste(attributes(y)$var.lab,"BY",attributes(x)$header)
-          attributes(out)$type  <- "cross"
+          #           attributes(out)$header <- paste(attributes(y)$var.lab,"BY",attributes(x)$header)
+          #           attributes(out)$type  <- "cross"
           out
           
 }

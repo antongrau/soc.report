@@ -4,17 +4,17 @@
 \alias{freq.tab}
 \title{freq.tab}
 \usage{
-freq.tab(x, transpose = FALSE, cells = c("count", "pct"), weights = NULL,
-  digits = 3)
+freq.tab(x, transpose = FALSE, weights = NULL, digits = 3,
+  cumsum = TRUE, screen = TRUE)
 }
 \arguments{
 \item{x}{a vector}
 
 \item{transpose}{transposes the table if set as TRUE}
 
-\item{cells}{a vector indicating which cells to export.Default is c("count", "pct")}
-
 \item{weighs}{a numeric vector of weights}
+
+\item{cells}{a vector indicating which cells to export.Default is c("count", "pct")}
 }
 \value{
 a data.frame
