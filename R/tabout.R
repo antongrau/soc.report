@@ -65,12 +65,13 @@ tabout       <- function (
           start.rows   <- start.rows + plus + row.breaks
           end.rows     <- start.rows + n.rows
           
-          header.rows  <- start.rows - 1  
+          footnote.rows <- end.rows + 1 
+          header.rows   <- start.rows - 1  
           
           ###
           cs           <- style(my_workbook, style = style)  # Erstat 1 med style
           
-          cb.rows      <- createRow(new.sheet, 1:tail(end.rows, 1))
+          cb.rows      <- createRow(new.sheet, 1:tail(footnote.rows))
           cb.cells     <- createCell(cb.rows, 1:(max(n.cols)+1))
           
           
@@ -91,6 +92,8 @@ tabout       <- function (
           
           row.headers          <- getRows(new.sheet, header.rows)
           row.sub.headers      <- getRows(new.sheet, start.rows)
+          row.footnote         <- getRows(new.sheet, footnote.rows )
+          cell.footnote        <- getCells(row.footnote, colIndex = 1)
           cell.headers         <- getCells(row.headers, colIndex = header.pos)
           cell.sub.headers     <- getCells(row.sub.headers, colIndex = 1)
           
@@ -102,6 +105,8 @@ tabout       <- function (
                     
                     if (!is.null(attributes(x[[i]])$sub.header))
                               setCellValue(cell.sub.headers[[i]], attributes(x[[i]])$sub.header)
+                    if (!is.null(attributes(x[[i]])$footnote))
+                              setCellValue(cell.footnote[[i]], attributes(x[[i]])$footnote)
           })
           
           if (!is.null(headers)){

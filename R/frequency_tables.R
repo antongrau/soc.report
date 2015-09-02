@@ -257,7 +257,7 @@ cross.tab  <- function(dep,indep, cells="prop.r", chisq=T, weight=NULL, digits =
           }
           
           if(any(c("Col","col","c","C","Columns","columns", "prop.c", "Prop.c") %in% cells)){
-                    tab                       <- round(addmargins(table$prop.row,1),digits)
+                    tab                       <- round(addmargins(table$prop.col,1),digits)
                     rownames(tab)[nrow(tab)]  <- "Total"
           }
           
@@ -279,5 +279,3 @@ cross.tab  <- function(dep,indep, cells="prop.r", chisq=T, weight=NULL, digits =
           out
           
 }
-
-
