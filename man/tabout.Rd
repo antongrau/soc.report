@@ -5,7 +5,8 @@
 \title{tabout}
 \usage{
 tabout(x, sheet.name = NULL, file = "My_tables.xlsx",
-  row.break.length = 2, write = TRUE, style = 1)
+  row.break.length = 2, write = TRUE, style = 1, dropif = 30,
+  headers = NULL)
 }
 \arguments{
 \item{x}{a list or a data.frame}

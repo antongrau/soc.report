@@ -7,12 +7,6 @@
 prepare.lime.data(x)
 }
 \arguments{
-<<<<<<< HEAD
-\item{x}{a data.frame object}
-}
-\description{
-prepare.lime.data
-=======
 \item{x}{a data.frame}
 }
 \value{
@@ -21,6 +15,5 @@ a data.frame
 \description{
 Adds a number of attributes (header, sub.header, answer) to each variable in a data.frame.
 In addition it revalues the level "Yes" in multiple choice variables from Limesurvey.
->>>>>>> 82ff20d7340ab2e6e978d8eba2d29989ce305a5e
 }
 
