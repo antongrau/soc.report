@@ -69,7 +69,7 @@ tabout       <- function (
           header.rows   <- start.rows - 1  
           
           ###
-          cs           <- style(my_workbook, style = style)  # Erstat 1 med style
+          cs           <- style(my_workbook, style = style)  
           
           cb.rows      <- createRow(new.sheet, 1:tail(footnote.rows))
           cb.cells     <- createCell(cb.rows, 1:(max(n.cols)+1))

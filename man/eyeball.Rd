@@ -4,7 +4,8 @@
 \alias{eyeball}
 \title{eyeball}
 \usage{
-eyeball(dep, vars, weight = NULL, cell = "prop.c", p.value = 0.05)
+eyeball(dep, vars, weight = NULL, cell = "prop.c", p.value = 0.05,
+  file = "eyeball.xlsx")
 }
 \arguments{
 \item{dep}{a dataframe of dependent variables}
