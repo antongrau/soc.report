@@ -15,17 +15,20 @@ eyeball  <- function(dep,
                      vars,
                      weight = NULL,
                      cell = "prop.c",
-                     p.value = 0.05){
+                     p.value = 0.05,
+                     file = "eyeball.xlsx"){
           
-          out.list <- chi.list <- subtitles  <- list()
+          out.list <- out.count <- chi.list <- subtitles  <- list()
           
           for (i in 1:ncol(dep)){
                     out.list[[i]]                     <- apply(vars,2, cross.tab, cells = cell, weight = weight, dep[,i])
+                    out.count[[i]]                    <- apply(vars,2, cross.tab, cells = "count", weight = weight, dep[,i])
                     suppressWarnings(chi.list[[i]]    <- apply(vars,2, chisq.test, dep[,i]))
                     subtitles[[i]]                    <- rep(names(dep[i]),length(vars))
           }
           titles              <- rep(names(vars),length(dep))
-          unlisted            <- unlist(out.list, recursive=FALSE, use.names=FALSE)  
+          unlisted            <- unlist(out.list, recursive=FALSE, use.names=FALSE)
+          unlisted.count      <- unlist(out.count, recursive=FALSE, use.names=FALSE)  
           unlisted.chi        <- unlist(chi.list, recursive=FALSE, use.names=FALSE)  
           unlisted.sub        <- unlist(subtitles, recursive=FALSE, use.names=FALSE)  
           
@@ -35,13 +38,20 @@ eyeball  <- function(dep,
           
           
           significant            <- which(p.values  <= p.value)
+          significant.p.values   <- p.values[significant]
           significant.tables     <- unlisted[significant]
+          significant.count      <- unlisted.count[significant]
           significant.titles     <- titles[significant]
           signifianct.subs       <- unlisted.sub[significant]
           
-          for (i in 1:length(significant))
+          for (i in 1:length(significant)){
                     attributes(significant.tables[[i]])$sub.header  <- signifianct.subs[i]
+                    attributes(significant.count[[i]])$sub.header  <- signifianct.subs[i]
+                    attributes(significant.tables[[i]])$footnote    <- significant.p.values[i]         
+          }         
           
-          tabout(significant.tables, headers = significant.titles, header.pos = 2)
+          tabout(significant.tables, headers = significant.titles, header.pos = 2, sheet.name ="prop.c", file=file)
+          tabout(significant.count, headers = significant.titles, header.pos = 2, sheet.name ="freq", overwrite=F, file=file)
+          
           
 }

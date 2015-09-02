@@ -6,7 +6,7 @@
 \usage{
 tabout(x, sheet.name = NULL, overwrite = TRUE, file = "My_tables.xlsx",
   row.break.length = 2, write = TRUE, style = 1, dropif = 30,
-  headers = names(x))
+  headers = names(x), header.pos = 1)
 }
 \arguments{
 \item{x}{a list or a data.frame}
