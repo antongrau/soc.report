@@ -4,9 +4,19 @@
 \alias{tabout}
 \title{tabout}
 \usage{
+<<<<<<< HEAD
+tabout(x, sheet.name = NULL, file = "My_tables.xlsx",
+  row.break.length = 2, write = TRUE, style = 1, dropif = 30,
+  headers = NULL)
+=======
 tabout(x, sheet.name = NULL, overwrite = TRUE, file = "My_tables.xlsx",
   row.break.length = 2, write = TRUE, style = 1, dropif = 30,
+<<<<<<< HEAD
   headers = names(x), header.pos = 1)
+=======
+  headers = names(x))
+>>>>>>> e9f3c3f35edb28fcc70b9973b91c43d2058e16bb
+>>>>>>> 5585abab7a5b37fa64ad4cd4be1ef9460d1adbe8
 }
 \arguments{
 \item{x}{a list or a data.frame}
