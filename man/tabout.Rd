@@ -7,6 +7,17 @@
 tabout(x, sheet.name = NULL, overwrite = TRUE, file = "My_tables.xlsx",
   row.break.length = 2, write = TRUE, style = 1, dropif = 30,
   headers = names(x), header.pos = 1)
+<<<<<<< HEAD
+=======
+=======
+<<<<<<< HEAD
+  headers = names(x), header.pos = 1)
+=======
+  headers = names(x))
+>>>>>>> e9f3c3f35edb28fcc70b9973b91c43d2058e16bb
+>>>>>>> 5585abab7a5b37fa64ad4cd4be1ef9460d1adbe8
+>>>>>>> f16214ecd4e6001ac36a5b8c62865093d1d5020d
+>>>>>>> e138b254600b8ec159103142a51e76eaeee0d339
 }
 \arguments{
 \item{x}{a list or a data.frame}

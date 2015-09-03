@@ -1,11 +1,13 @@
 #' tabout
 #' 
 #' takes a list of dataframes and write them to a sheet
-#' @param x a list or a data.frame
+#' @param x a list of dataframes or a single data.frame
 #' @param sheet.name name your sheet
 #' @param overwrite 
 #' @param file filename
 #' @param row.break.length number of empty rows between dataframes in sheet
+#' @param headers takes the name of x unless something else is specificed
+#' @param header.pos which column to paste headers too. 1 or 2
 #' @param write if false returns workbook
 #' @param style chose how to style your frames (currently you can only  style=1)
 #' @export tabout
