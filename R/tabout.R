@@ -1,11 +1,13 @@
 #' tabout
 #' 
 #' takes a list of dataframes and write them to a sheet
-#' @param x a list or a data.frame
+#' @param x a list of dataframes or a single data.frame
 #' @param sheet.name name your sheet
 #' @param overwrite 
 #' @param file filename
 #' @param row.break.length number of empty rows between dataframes in sheet
+#' @param headers takes the name of x unless something else is specificed
+#' @param header.pos which column to paste headers too. 1 or 2
 #' @param write if false returns workbook
 #' @param style chose how to style your frames (currently you can only  style=1)
 #' @export tabout
@@ -19,7 +21,7 @@ tabout       <- function (
           row.break.length = 2, 
           write = TRUE, 
           style = 1,
-          dropif = 30,
+          dropif = 40,
           headers = names(x),
           header.pos = 1) 
 {
@@ -69,9 +71,9 @@ tabout       <- function (
           header.rows   <- start.rows - 1  
           
           ###
-          cs           <- style(my_workbook, style = style)  # Erstat 1 med style
+          cs           <- style(my_workbook, style = style)  
           
-          cb.rows      <- createRow(new.sheet, 1:tail(footnote.rows))
+          cb.rows      <- createRow(new.sheet, 1:tail(footnote.rows,1))
           cb.cells     <- createCell(cb.rows, 1:(max(n.cols)+1))
           
           
@@ -279,10 +281,10 @@ style <- function(wb = my_workbook, style=1){
   if (style == 2){
     font1      <- Font(wb,heightInPoints=9, name="Helvetica")
     font2      <- Font(wb,heightInPoints=10, name="Helvetica", isBold=T)
-    l.align    <- Alignment(h="ALIGN_LEFT", wrapText=T)
+    l.align    <- Alignment(h="ALIGN_LEFT", wrapText=F)
     l.align2   <- Alignment(h="ALIGN_LEFT", wrapText=F)
-    c.align    <- Alignment(h="ALIGN_CENTER", wrapText=T)
-    r.align    <- Alignment(h="ALIGN_RIGHT", wrapText=T)
+    c.align    <- Alignment(h="ALIGN_CENTER", wrapText=F)
+    r.align    <- Alignment(h="ALIGN_RIGHT", wrapText=F)
     fill1      <- Fill(backgroundColor="#AAAAAA",foregroundColor="#AAAAAA")
     border1    <- Border(position=c("TOP", "BOTTOM", "LEFT", "RIGHT"))
     
